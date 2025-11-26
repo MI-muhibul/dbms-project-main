@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --danger: #ef4444;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        h2 {
+            margin: 0 0 15px 0;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(99, 102, 241, 0.4);
+        }
+
+        button.danger {
+            background: var(--danger);
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+        }
+
+        button.danger:hover {
+            background: #dc2626;
+            box-shadow: 0 6px 8px rgba(239, 68, 68, 0.4);
+        }
+
+        button.secondary {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--text);
+            box-shadow: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        button.secondary:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        input,
+        textarea {
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .search-bar {
+            margin-bottom: 25px;
+            background: var(--glass-bg);
+            padding: 15px;
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .search-bar input {
+            margin-bottom: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+
+        .user-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .user-header h2 {
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .user-item {
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+            margin-bottom: 5px;
+        }
+
+        .user-item:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .user-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .user-item span {
+            font-weight: 500;
+        }
+
+        .user-item small {
+            color: var(--text-light);
+        }
+
+        .news-item {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .news-item:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .news-meta {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            font-size: 0.8em;
+            margin-left: 5px;
+            box-shadow: none;
+        }
+
+        .edit-btn {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .edit-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .delete-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .delete-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .scrollable-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 2em;
+            line-height: 1;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .close:hover {
+            color: var(--danger);
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>News Blog</h1>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button onclick="logout()" class="danger">Logout</button>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- Left Column: User Dashboard -->
+            <div>
+                <!-- User Profile & Create Post -->
+                <div class="card">
+                    <div class="user-header">
+                        <h2 id="dashboardUsername">Loading...</h2>
+                        <button onclick="openProfileModal()" class="secondary"
+                            style="font-size: 0.9em; padding: 5px 15px;">Edit Profile</button>
+                    </div>
+
+                    <h3>Create Post</h3>
+                    <form onsubmit="createNews(event)">
+                        <input type="text" id="newsTitle" placeholder="Headline" required>
+                        <textarea id="newsBody" placeholder="What's on your mind?" rows="3" required></textarea>
+                        <button type="submit" style="width: 100%;">Publish</button>
+                    </form>
+                </div>
+
+                <!-- My Posts -->
+                <div class="card">
+                    <h3>My Posts</h3>
+                    <div id="myNewsList" class="scrollable-list">
+                        <div style="text-align:center; color:var(--text-light);">No posts yet.</div>
+                    </div>
+                </div>
+
+                <!-- Writers List -->
+                <div class="card">
+                    <h3 style="margin-bottom:15px;">Writers</h3>
+                    <div id="userList" class="scrollable-list">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Right Column: Global Feed -->
+            <div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search Global Feed by Title, Author, or Content..."
+                        onkeyup="filterNews()">
+                </div>
+
+                <div class="card">
+                    <h2 style="margin-bottom: 25px;">Latest Stories</h2>
+                    <div id="newsList">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>My Profile</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+
+            <form onsubmit="updateUser(event)">
+                <input type="hidden" id="editUserId">
+                <label style="font-size: 0.9em; color: var(--text-light);">Username</label>
+                <input type="text" id="editUsername" required>
+
+                <label style="font-size: 0.9em; color: var(--text-light);">Email</label>
+                <input type="email" id="editEmail" required>
+
+                <label style="font-size: 0.9em; color: var(--text-light);">Age</label>
+                <input type="number" id="editAge">
+
+                <label style="font-size: 0.9em; color: var(--text-light);">Contact</label>
+                <input type="text" id="editContact">
+
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" class="danger" onclick="deleteUser()">Delete Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit News Modal -->
+    <div id="editNewsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Post</h2>
+                <span class="close" onclick="closeEditNewsModal()">&times;</span>
+            </div>
+            <form onsubmit="submitEditNews(event)">
+                <input type="hidden" id="editNewsId">
+                <label>Title</label>
+                <input type="text" id="editNewsTitle" required>
+                <label>Content</label>
+                <textarea id="editNewsBody" rows="5" required></textarea>
+                <button type="submit">Update Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Read News Modal -->
+    <div id="readNewsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 id="readNewsTitle"></h2>
+                <span class="close" onclick="closeReadNewsModal()">&times;</span>
+            </div>
+            <div id="readNewsContent">
+                <div class="news-meta" id="readNewsMeta"></div>
+                <img id="readNewsImage" src=""
+                    style="width:100%; border-radius:12px; margin-bottom:20px; display:none;">
+                <p id="readNewsBody"
+                    style="line-height: 1.8; font-size: 1.1em; word-wrap: break-word; overflow-wrap: break-word;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allUsers = [];
+        let allNews = [];
+        let currentUser = null;
+        let activeUserFilter = null;
+
+        async function fetchInitialData() {
+            const [usersRes, newsRes, meRes] = await Promise.all([
+                fetch('/api/users'),
+                fetch('/api/news'),
+                fetch('/api/auth/me')
+            ]);
+
+            if (usersRes.ok) allUsers = await usersRes.json();
+            if (newsRes.ok) allNews = await newsRes.json();
+            if (meRes.ok) {
+                const me = await meRes.json();
+                if (me.authenticated) {
+                    currentUser = me.user;
+                    document.getElementById('dashboardUsername').textContent = currentUser.username;
+                } else {
+                    window.location.href = '/login';
+                }
+            }
+
+            renderUsers();
+            renderNews();
+            renderMyNews();
+        }
+
+        function renderUsers() {
+            const list = document.getElementById('userList');
+            list.innerHTML = allUsers.map(u => `
+                <div class="user-item ${activeUserFilter === u.username ? 'active' : ''}" 
+                     onclick="filterByUser('${u.username}')">
+                    <div>
+                        <div style="font-weight: 600;">${u.username}</div>
+                        <small>${u.email}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMyNews() {
+            if (!currentUser) return;
+
+            const myNews = allNews.filter(n => n.user_id === currentUser.id);
+            const list = document.getElementById('myNewsList');
+
+            if (myNews.length > 0) {
+                list.innerHTML = myNews.map(n => `
+                    <div class="news-item" style="border-left: 4px solid var(--primary); padding: 15px;">
+                        <div style="margin-bottom: 10px;">
+                            <h4 style="margin:0 0 5px 0;">${n.title}</h4>
+                            <small style="color:var(--text-light);">${new Date(n.created_at).toLocaleDateString()}</small>
+                        </div>
+                        <div style="display:flex; gap:5px;">
+                            <button onclick="openEditNewsModal(${n.news_id})" class="action-btn edit-btn" style="flex:1;">Edit</button>
+                            <button onclick="deleteNews(${n.news_id})" class="action-btn delete-btn" style="flex:1;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = '<div style="text-align:center; color:var(--text-light); padding:10px;">No posts yet.</div>';
+            }
+        }
+
+        function renderNews(newsToRender = null) {
+            let listData = newsToRender || allNews;
+
+            // Apply User Filter if active
+            if (activeUserFilter) {
+                listData = listData.filter(n => n.username === activeUserFilter);
+            }
+
+            const list = document.getElementById('newsList');
+            if (listData.length === 0) {
+                list.innerHTML = '<div style="text-align:center; color:var(--text-light); padding:20px;">No news found.</div>';
+                return;
+            }
+
+            list.innerHTML = listData.map(n => {
+                const truncatedBody = n.body.length > 150 ? n.body.substring(0, 150) + '...' : n.body;
+                return `
+                <div class="news-item">
+                    <h3>${n.title}</h3>
+                    <div class="news-meta">
+                        <span>By <strong>${n.username}</strong></span>
+                        <span>•</span>
+                        <span>${new Date(n.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <p style="line-height: 1.6;">${truncatedBody}</p>
+                    ${n.image_url ? `<img src="${n.image_url}" class="news-image" loading="lazy" style="height: 200px;">` : ''}
+                    <button onclick="openReadMoreModal(${n.news_id})" class="secondary" style="margin-top: 15px; width: 100%;">Read More</button>
+                </div>
+            `}).join('');
+        }
+
+        function filterNews() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+
+            const filteredNews = allNews.filter(n => {
+                return n.title.toLowerCase().includes(term) ||
+                    n.username.toLowerCase().includes(term) ||
+                    n.body.toLowerCase().includes(term);
+            });
+
+            renderNews(filteredNews);
+        }
+
+        function filterByUser(username) {
+            activeUserFilter = username;
+            renderUsers(); // Re-render to show active state
+            filterNews(); // Re-apply filters
+        }
+
+        function clearUserFilter() {
+            activeUserFilter = null;
+            renderUsers();
+            filterNews();
+        }
+
+        // --- Modals ---
+        async function openProfileModal() {
+            if (!currentUser) return;
+            const user = allUsers.find(u => u.user_id === currentUser.id);
+            if (!user) return;
+            document.getElementById('editUserId').value = user.user_id;
+            document.getElementById('editUsername').value = user.username;
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editAge').value = user.age || '';
+            document.getElementById('editContact').value = user.contact_number || '';
+            document.getElementById('profileModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('profileModal').classList.remove('active');
+        }
+
+        function openEditNewsModal(newsId) {
+            const news = allNews.find(n => n.news_id === newsId);
+            if (!news) return;
+            document.getElementById('editNewsId').value = news.news_id;
+            document.getElementById('editNewsTitle').value = news.title;
+            document.getElementById('editNewsBody').value = news.body;
+            document.getElementById('editNewsModal').classList.add('active');
+        }
+
+        function closeEditNewsModal() {
+            document.getElementById('editNewsModal').classList.remove('active');
+        }
+
+        function openReadMoreModal(newsId) {
+            const news = allNews.find(n => n.news_id === newsId);
+            if (!news) return;
+
+            document.getElementById('readNewsTitle').textContent = news.title;
+            document.getElementById('readNewsBody').textContent = news.body;
+            document.getElementById('readNewsMeta').innerHTML = `
+                <span>By <strong>${news.username}</strong></span>
+                <span>•</span>
+                <span>${new Date(news.created_at).toLocaleDateString()}</span>
+            `;
+
+            const img = document.getElementById('readNewsImage');
+            if (news.image_url) {
+                img.src = news.image_url;
+                img.style.display = 'block';
+            } else {
+                img.style.display = 'none';
+            }
+
+            document.getElementById('readNewsModal').classList.add('active');
+        }
+
+        function closeReadNewsModal() {
+            document.getElementById('readNewsModal').classList.remove('active');
+        }
+
+        // --- CRUD Operations ---
+
+        async function updateUser(e) {
+            e.preventDefault();
+            const userId = document.getElementById('editUserId').value;
+            const data = {
+                username: document.getElementById('editUsername').value,
+                email: document.getElementById('editEmail').value,
+                age: document.getElementById('editAge').value,
+                contact_number: document.getElementById('editContact').value
+            };
+            await fetch(`/api/users/${userId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            fetchInitialData();
+            closeModal();
+        }
+
+        async function deleteUser() {
+            if (!confirm('Are you sure? This will delete your account and all your news.')) return;
+            await fetch(`/api/users/${currentUser.id}`, { method: 'DELETE' });
+            window.location.href = '/login';
+        }
+
+        async function createNews(e) {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('newsTitle').value,
+                body: document.getElementById('newsBody').value
+            };
+            await fetch('/api/news', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            fetchInitialData();
+            e.target.reset();
+        }
+
+        async function submitEditNews(e) {
+            e.preventDefault();
+            const newsId = document.getElementById('editNewsId').value;
+            const data = {
+                title: document.getElementById('editNewsTitle').value,
+                body: document.getElementById('editNewsBody').value
+            };
+            await fetch(`/api/news/${newsId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            fetchInitialData();
+            closeEditNewsModal();
+        }
+
+        async function deleteNews(newsId) {
+            if (!confirm('Delete this news?')) return;
+            await fetch(`/api/news/${newsId}`, { method: 'DELETE' });
+            fetchInitialData();
+        }
+
+        async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = '/login';
+        }
+
+        // Close modal on outside click
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        fetchInitialData();
+    </script>
+</body>
+
+</html>

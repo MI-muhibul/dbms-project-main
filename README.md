@@ -58,25 +58,9 @@ A full-featured News Blog application built with Python Flask and MySQL. This sy
 ## Database Schema
 
 ```mermaid
-erDiagram
-    USERS ||--o{ NEWS : writes
-    USERS {
-        int user_id PK
-        string username
-        string email
-        string password_hash
-        int age
-        string contact_number
-    }
-    NEWS {
-        int news_id PK
-        string title
-        string body
-        string image_url
-        datetime created_at
-        int user_id FK
-    }
-```
+## erDiagram
+<img width="1280" height="935" alt="image" src="https://github.com/user-attachments/assets/fdd9c195-5bb5-4a1b-b5f3-8cd915463665" />
+
 
 ## Swimlane Diagram
 <img width="1280" height="906" alt="image" src="https://github.com/user-attachments/assets/b12399b3-7f36-41df-ad2a-f638a77e05b0" />

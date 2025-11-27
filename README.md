@@ -9,7 +9,7 @@ A full-featured News Blog application built with Python Flask and MySQL. This sy
 -   **News Management**: Create, Read, Update, and Delete (CRUD) news articles.
 -   **User Management**: Admin-like features to view and manage registered users.
 -   **AI Image Generation**: Automatically generates cover images for news articles using AI (Pollinations.ai) based on the article title and content.
--   **Database Seeding**: Includes a setup script to populate the database with sample users and news articles.
+-   **Database Seeding**: Includes a setup script to create the database schema.
 -   **Responsive Design**: Clean and simple user interface.
 
 ## Tech Stack
@@ -53,7 +53,30 @@ A full-featured News Blog application built with Python Flask and MySQL. This sy
     ```bash
     python database_setup.py
     ```
-    *This will create the `news_blog_db` database and populate it with 5 users and 20 news items.*
+    *This will create the `news_blog_db` database and tables.*
+
+## Database Schema
+
+```mermaid
+erDiagram
+    USERS ||--o{ NEWS : writes
+    USERS {
+        int user_id PK
+        string username
+        string email
+        string password_hash
+        int age
+        string contact_number
+    }
+    NEWS {
+        int news_id PK
+        string title
+        string body
+        string image_url
+        datetime created_at
+        int user_id FK
+    }
+```
 
 ## Usage
 
@@ -67,9 +90,7 @@ A full-featured News Blog application built with Python Flask and MySQL. This sy
     Open your web browser and go to:
     `http://127.0.0.1:5000`
 
-3.  **Login Credentials** (from seeded data):
-    -   **Email**: `journalist@news.com` (or any seeded email like `abir@example.com`)
-    -   **Password**: `12345678`
+
 
 ## Project Structure
 

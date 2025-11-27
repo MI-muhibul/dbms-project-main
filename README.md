@@ -78,6 +78,9 @@ erDiagram
     }
 ```
 
+Swimlane Diagram
+<img width="1280" height="906" alt="image" src="https://github.com/user-attachments/assets/b12399b3-7f36-41df-ad2a-f638a77e05b0" />
+
 ## Usage
 
 1.  **Start the Application**:

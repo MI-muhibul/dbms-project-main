@@ -59,11 +59,12 @@ A full-featured News Blog application built with Python Flask and MySQL. This sy
 
 ```mermaid
 ## erDiagram
-
+![s](https://github.com/user-attachments/assets/f8a90f15-d05d-4cc1-a829-6d982668ffbb)
 
 
 ## Swimlane Diagram
-<img width="1280" height="906" alt="image" src="https://github.com/user-attachments/assets/b12399b3-7f36-41df-ad2a-f638a77e05b0" />
+![a](https://github.com/user-attachments/assets/3f0d21aa-3210-4615-b00b-3237178fa7b3)
+
 
 ## Usage
 
